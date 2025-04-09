@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="293.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utegis.flowboard.FileCreator.CreateProjectDialog">
+   <stylesheets>
+      <URL value="@CreateProjectsDialog.css" />
+   </stylesheets>
+   <children>
+      <CheckBox fx:id="BlockSystem" layoutX="17.0" layoutY="153.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="131.0" styleClass="BlockSystem" text="Система блоков" />
+      <Button fx:id="Cansel" layoutX="8.0" layoutY="246.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" styleClass="Cansel" text="Отмена" />
+      <Button fx:id="Create" layoutX="230.0" layoutY="246.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" styleClass="Create" text="Создать" />
+      <TextField fx:id="NameProjectField" layoutX="136.0" layoutY="64.0" prefHeight="36.0" prefWidth="199.0" styleClass="NameProjectField" />
+      <TextField fx:id="DirProjectField" layoutX="154.0" layoutY="107.0" prefHeight="36.0" prefWidth="179.0" styleClass="DirProjectField" />
+      <TextField layoutX="124.0" layoutY="192.0" prefHeight="25.0" prefWidth="207.0" />
+      <HBox prefHeight="43.0" prefWidth="346.0">
+         <children>
+            <Label fx:id="CreateNewProjectPane" alignment="CENTER" prefHeight="45.0" prefWidth="346.0" styleClass="CreateNewProjectPane" stylesheets="@CreateProjectsDialog.css" text="Create New Project" />
+         </children>
+      </HBox>
+      <Label fx:id="NameProjectText" layoutX="11.0" layoutY="73.0" styleClass="NameProjectText" text="Название проекта" />
+      <Label fx:id="DirProjectText" layoutX="11.0" layoutY="116.0" prefHeight="18.0" prefWidth="143.0" styleClass="DirProjectText" text="Директория проекта">
+         <font>
+            <Font size="9.0" />
+         </font></Label>
+      <Label layoutX="16.0" layoutY="201.0" text="В разработке" />
+   </children>
+</AnchorPane>

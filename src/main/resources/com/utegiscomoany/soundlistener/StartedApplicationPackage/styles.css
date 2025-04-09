@@ -1,0 +1,111 @@
+/* Основной фон */
+.root-pane {
+    -fx-background-color: #515d6c;
+}
+
+/* Левая панель */
+.left-pane {
+    -fx-background-color: #353d47; /* Цвет фона */
+    -fx-background-radius: 0 12px 12px 0; /* Закругление только справа */
+    -fx-border-color: #272e36; /* Цвет рамки */
+    -fx-border-width: 12; /* Толщина рамки */
+    -fx-border-radius: 0 10px 10px 0; /* Закругление рамки только справа */
+}
+
+/* Правая панель */
+.right-pane {
+    -fx-background-color: #353d47;
+    -fx-background-radius: 25px;
+    -fx-border-radius: 25px;
+    -fx-border-color: #272e36;
+    -fx-border-width: 10;
+}
+
+/* Скрытый элемент */
+.hidden {
+    visibility: hidden;
+}
+/* Анимация для плавного скрытия */
+ .left-pane {
+     -fx-transition: all 0.3s ease;
+ }
+
+ .left-pane.hidden {
+     -fx-opacity: 0;
+     -fx-translate-x: -100%;
+ }
+
+ .Text-project-pane{
+     -fx-background-color: #708093;
+     -fx-background-radius:12px 12px 12px 12px;
+ }
+ .User-project{
+      -fx-background-color: #708093;
+      -fx-background-radius:12px 12px 12px 12px;
+ }
+
+ /* Стиль для кнопки */
+ .Setting-button-user-project {
+     -fx-background-color: transparent; /* Прозрачный фон */
+     -fx-border-width: 0; /* Убираем границу */
+     -fx-padding: 0; /* Убираем отступы */
+     -fx-cursor: hand; /* Изменяем курсор на руку при наведении */
+ }
+
+ /* Эффект увеличения при наведении */
+ .Setting-button-user-project:hover {
+     -fx-scale-x: 1.2; /* Увеличение по оси X */
+     -fx-scale-y: 1.2; /* Увеличение по оси Y */
+     -fx-scale-z: 1.2; /* Увеличение по оси Z (опционально) */
+     -fx-transition: all 0.2s ease; /* Плавный переход */
+ }
+
+ /* Стиль для изображения внутри кнопки */
+ .Setting-button-user-project .image-view {
+     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.5, 0, 0); /* Тень для изображения */
+ }
+  .New-project-user{
+       -fx-background-color: #708093;
+       -fx-background-radius:12px 12px 12px 12px;
+  }
+.New-project-user:hover {
+  fx-background-color: #708093;
+  -fx-background-radius:12px 12px 12px 12px;
+  -fx-scale-x: 1.2; /* Увеличение по оси X */
+  -fx-scale-y: 1.2; /* Увеличение по оси Y */
+  -fx-scale-z: 1.2; /* Увеличение по оси Z (опционально) */
+  -fx-transition: all 0.2s ease; /* Плавный переход */
+  -fx-cursor: hand; /* Изменяем курсор на руку при наведении */
+}
+
+  .Open-project-user{
+       -fx-background-color: #708093;
+       -fx-background-radius:12px 12px 12px 12px;
+  }
+.Open-project-user:hover {
+  fx-background-color: #708093;
+  -fx-background-radius:12px 12px 12px 12px;
+  -fx-scale-x: 1.2; /* Увеличение по оси X */
+  -fx-scale-y: 1.2; /* Увеличение по оси Y */
+  -fx-scale-z: 1.2; /* Увеличение по оси Z (опционально) */
+  -fx-transition: all 0.2s ease; /* Плавный переход */
+  -fx-cursor: hand; /* Изменяем курсор на руку при наведении */
+}
+
+  .Settings-user{
+       -fx-background-color: #708093;
+       -fx-background-radius:12px 12px 12px 12px;
+  }
+.Settings-user:hover {
+  fx-background-color: #708093;
+  -fx-background-radius:12px 12px 12px 12px;
+  -fx-scale-x: 1.2; /* Увеличение по оси X */
+  -fx-scale-y: 1.2; /* Увеличение по оси Y */
+  -fx-scale-z: 1.2; /* Увеличение по оси Z (опционально) */
+  -fx-transition: all 0.2s ease; /* Плавный переход */
+  -fx-cursor: hand; /* Изменяем курсор на руку при наведении */
+}
+.Account-user{
+       -fx-background-color: #708093;
+       -fx-background-radius:12px;
+}
