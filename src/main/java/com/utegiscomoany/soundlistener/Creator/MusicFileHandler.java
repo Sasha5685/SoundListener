@@ -10,9 +10,9 @@ import javax.xml.transform.stream.*;
 import org.w3c.dom.*;
 
 public class MusicFileHandler {
-    public static void handleDroppedFiles(List<File> files) {
+    public static void handleDroppedFiles(List<File> files, String currentPage) {
         try {
-            String musicDirPath = System.getProperty("user.home") + "/Documents/SoundListener/MusicPage_1";
+            String musicDirPath = System.getProperty("user.home") + "/Documents/SoundListener/" + currentPage;
             Path musicDir = Paths.get(musicDirPath);
 
             if (!Files.exists(musicDir)) {

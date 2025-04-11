@@ -29,15 +29,18 @@ public class AppInitializer {
             if (!Files.exists(settingsFile)) {
                 Files.createFile(settingsFile);
                 System.out.println("Created file: " + settingsFile);
+                // Write initial XML structure
+                String initialContent = "<allPages>\n<page name=\"MainPage\"/>\n</allPages>";
+                Files.write(settingsFile, initialContent.getBytes());
             }
 
-            // Create music page directory and file if they don't exist
-            Path musicPageDir = appDirectory.resolve(MUSIC_PAGE_FOLDER);
-            if (!Files.exists(musicPageDir)) {
-                Files.createDirectory(musicPageDir);
-                System.out.println("Created directory: " + musicPageDir);
+            // Create MainPage directory if it doesn't exist
+            Path mainPageDir = appDirectory.resolve("MainPage");
+            if (!Files.exists(mainPageDir)) {
+                Files.createDirectory(mainPageDir);
+                System.out.println("Created directory: " + mainPageDir);
 
-                Path musicPageFile = musicPageDir.resolve(MUSIC_PAGE_FILE);
+                Path musicPageFile = mainPageDir.resolve(MUSIC_PAGE_FILE);
                 Files.createFile(musicPageFile);
 
                 // Write initial XML structure
