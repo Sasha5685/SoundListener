@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="700.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utegiscomoany.soundlistener.MainController">
+<?import java.net.URL?>
+<VBox prefHeight="700.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.utegiscomoany.soundlistener.MainController">
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+
     <children>
-        <MenuBar VBox.vgrow="NEVER">
+        <MenuBar VBox.vgrow="NEVER" style="-fx-background-color: #2c3e50;">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="File" style="-fx-text-fill: white;">
                     <items>
                         <MenuItem mnemonicParsing="false" text="New" />
                         <MenuItem mnemonicParsing="false" text="Open…" />
@@ -27,14 +23,13 @@
                         <MenuItem mnemonicParsing="false" text="Close" />
                         <MenuItem mnemonicParsing="false" text="Save" />
                         <MenuItem mnemonicParsing="false" text="Save As…" />
-                        <MenuItem mnemonicParsing="false" text="Revert" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Preferences…" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Quit" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" text="Edit" style="-fx-text-fill: white;">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Undo" />
                         <MenuItem mnemonicParsing="false" text="Redo" />
@@ -48,45 +43,56 @@
                         <MenuItem mnemonicParsing="false" text="Unselect All" />
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu mnemonicParsing="false" text="Help" style="-fx-text-fill: white;">
                     <items>
                         <MenuItem mnemonicParsing="false" text="About SoundListener" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <AnchorPane fx:id="mainPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-background-color: #f5f5f5;" VBox.vgrow="ALWAYS">
-            <Pane layoutY="40.0" prefHeight="660.0" prefWidth="240.0" style="-fx-background-color: #2c3e50;">
+
+        <AnchorPane fx:id="mainPane" style="-fx-background-color: #34495e;" VBox.vgrow="ALWAYS">
+            <!-- Левая панель -->
+            <VBox layoutY="40.0" prefHeight="660.0" prefWidth="240.0" style="-fx-background-color: #2c3e50;">
                 <children>
-                    <Pane fx:id="pagesContainer" prefWidth="240.0" />
-                    <Pane fx:id="createPagePane" prefHeight="51.0" prefWidth="240.0" style="-fx-background-color: #27ae60;">
-                        <children>
-                            <Label alignment="CENTER" layoutX="14.0" prefHeight="51.0" prefWidth="212.0" text="Create Page" textFill="WHITE">
-                                <font>
-                                    <Font size="27.0" />
-                                </font>
-                            </Label>
-                        </children>
+                    <Label text="PLAYLISTS" style="-fx-text-fill: #e74c3c; -fx-font-weight: bold; -fx-padding: 15 10 5 15;"/>
+                    <Pane fx:id="pagesContainer" prefWidth="240.0" VBox.vgrow="ALWAYS" />
+                    <Pane fx:id="createPagePane" prefHeight="50.0" prefWidth="240.0" style="-fx-background-color: #27ae60; -fx-cursor: hand;">
+                        <Label alignment="CENTER" layoutX="14.0" prefHeight="50.0" prefWidth="212.0" text="Create Playlist" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
                     </Pane>
                 </children>
-            </Pane>
+            </VBox>
 
-            <!-- Контейнер для треков -->
-            <FlowPane fx:id="musicContainer" layoutX="243.0" layoutY="40.0" prefHeight="660.0" prefWidth="497.0" style="-fx-padding: 20; -fx-hgap: 20; -fx-vgap: 20;" />
+            <!-- Основная область -->
+            <ScrollPane layoutX="240.0" layoutY="40.0" prefHeight="660.0" prefWidth="610.0"
+                        hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" fitToWidth="true">
+                <FlowPane fx:id="musicContainer" style="-fx-padding: 20; -fx-hgap: 15; -fx-vgap: 15;" />
+            </ScrollPane>
 
             <!-- Панель управления -->
-            <HBox layoutX="0.0" layoutY="0.0" prefHeight="40.0" prefWidth="740.0" style="-fx-background-color: #2c3e50; -fx-alignment: center-left; -fx-padding: 0 10;">
-                <Button fx:id="playButton" mnemonicParsing="false" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Play" />
-                <Button fx:id="pauseButton" mnemonicParsing="false" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-margin: 0 10;" text="Pause" />
-                <Slider fx:id="volumeSlider" prefWidth="150.0" style="-fx-margin: 0 10;" />
+            <HBox layoutX="0.0" layoutY="0.0" prefHeight="40.0" prefWidth="850.0"
+                  style="-fx-background-color: #2c3e50; -fx-alignment: center; -fx-spacing: 30;">
+                <Button fx:id="playButton" mnemonicParsing="false" text="Play"
+                        style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 80;" />
+                <Button fx:id="pauseButton" mnemonicParsing="false" text="Pause"
+                        style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 80;" />
+
+                <HBox alignment="CENTER_RIGHT" spacing="15" HBox.hgrow="ALWAYS">
+                    <Label text="Mic:" style="-fx-text-fill: white;" />
+                    <Slider fx:id="microphoneSlider" prefWidth="150.0" />
+                    <Label text="Vol:" style="-fx-text-fill: white;" />
+                    <Slider fx:id="volumeSlider" prefWidth="150.0" />
+                </HBox>
             </HBox>
 
-            <!-- Label для drag-and-drop -->
-            <Label fx:id="dropLabel" alignment="CENTER" layoutX="337.0" layoutY="324.0" text="Переместите свою музыку сюда" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
+            <!-- Метка для перетаскивания -->
+            <Label fx:id="dropLabel" alignment="CENTER" layoutX="240.0" layoutY="300.0" prefWidth="610.0"
+                   text="Drag music files here" textAlignment="CENTER"
+                   style="-fx-text-fill: rgba(255,255,255,0.7); -fx-font-size: 18; -fx-font-weight: bold;" />
         </AnchorPane>
     </children>
 </VBox>

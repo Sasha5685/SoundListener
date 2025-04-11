@@ -3,7 +3,7 @@ module com.utegiscomoany.soundlistener {
     requires javafx.fxml;
     requires javafx.media;
     requires javafx.graphics;
-    requires java.xml;
+    requires java.desktop;
 
     opens com.utegiscomoany.soundlistener to javafx.fxml;
     exports com.utegiscomoany.soundlistener;

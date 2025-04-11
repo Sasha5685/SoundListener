@@ -9,14 +9,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.util.List;
 
@@ -73,31 +70,32 @@ public class MainController {
 
         pauseButton.setOnAction(e -> audioPlayer.pause());
 
+        // Настройка громкости
         volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
             audioPlayer.setVolume(newVal.doubleValue() / 100);
         });
         volumeSlider.setValue(50);
 
-        // Обработчик создания новой страницы
-        createPagePane.setOnMouseClicked(e -> {
-            TextInputDialog dialog = new TextInputDialog("New Page");
-            dialog.setTitle("Create New Page");
-            dialog.setHeaderText("Enter page name:");
-            dialog.setContentText("Name:");
+        createPagePane.setOnMouseClicked(e -> showCreatePageDialog());
+    }
 
-            dialog.showAndWait().ifPresent(name -> {
-                if (!name.trim().isEmpty()) {
-                    PageManager.addPage(name);
-                    loadPages();
-                }
-            });
+    private void showCreatePageDialog() {
+        TextInputDialog dialog = new TextInputDialog("New Page");
+        dialog.setTitle("Create New Page");
+        dialog.setHeaderText("Enter page name:");
+        dialog.setContentText("Name:");
+
+        dialog.showAndWait().ifPresent(name -> {
+            if (!name.trim().isEmpty()) {
+                PageManager.addPage(name);
+                loadPages();
+            }
         });
     }
 
     private void loadPages() {
         pagesContainer.getChildren().clear();
 
-        // Проверяем, существует ли MainPage, если нет - создаем
         List<String> pages = PageManager.getPages();
         if (!pages.contains("MainPage")) {
             PageManager.addPage("MainPage");
@@ -115,49 +113,45 @@ public class MainController {
                 pageLabel.setText(page);
                 pagePane.setLayoutY(yPos);
 
-                // Показываем кнопку удаления только для не-MainPage страниц
                 if (!"MainPage".equals(page)) {
                     deleteButton.setVisible(true);
-                    deleteButton.setOnAction(e -> {
-                        PageManager.removePage(page);
-                        loadPages();
-                        if (currentPage.equals(page)) {
-                            currentPage = "MainPage";
-                            loadMusicTracks();
-                        }
-                    });
+                    deleteButton.setOnAction(e -> deletePage(page));
                 }
 
-                pagePane.setOnMouseClicked(e -> {
-                    // Сбрасываем стиль предыдущей выбранной страницы
-                    if (selectedPagePane != null && !selectedPagePane.equals(pagePane)) {
-                        selectedPagePane.setStyle("-fx-background-color: #e74c3c;");
-                    }
-
-                    // Устанавливаем стиль для выбранной страницы
-                    pagePane.setStyle("-fx-background-color: #3498db;");
-                    selectedPagePane = pagePane;
-
-                    // Загружаем треки для выбранной страницы
-                    currentPage = page;
-                    loadMusicTracks();
-                });
-
-                // Выделяем текущую страницу
-                if (page.equals(currentPage)) {
-                    pagePane.setStyle("-fx-background-color: #3498db;");
-                    selectedPagePane = pagePane;
-                }
-
+                setupPageSelection(page, pagePane);
                 pagesContainer.getChildren().add(pagePane);
                 yPos += 75.0;
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-        // Позиционируем кнопку создания страницы
         createPagePane.setLayoutY(yPos);
+    }
+
+    private void deletePage(String page) {
+        PageManager.removePage(page);
+        loadPages();
+        if (currentPage.equals(page)) {
+            currentPage = "MainPage";
+            loadMusicTracks();
+        }
+    }
+
+    private void setupPageSelection(String page, Pane pagePane) {
+        pagePane.setOnMouseClicked(e -> {
+            if (selectedPagePane != null) {
+                selectedPagePane.setStyle("-fx-background-color: #e74c3c;");
+            }
+            pagePane.setStyle("-fx-background-color: #3498db;");
+            selectedPagePane = pagePane;
+            currentPage = page;
+            loadMusicTracks();
+        });
+
+        if (page.equals(currentPage)) {
+            pagePane.setStyle("-fx-background-color: #3498db;");
+            selectedPagePane = pagePane;
+        }
     }
 
     private void loadMusicTracks() {
@@ -169,50 +163,54 @@ public class MainController {
         String musicPagePath = System.getProperty("user.home") + "/Documents/SoundListener/" + currentPage + "/MusicPage.page";
         List<MusicPageParser.MusicTrack> tracks = MusicPageParser.parse(musicPagePath);
 
-        if (tracks.isEmpty()) {
-            dropLabel.setText("Drag music files here");
-        } else {
-            dropLabel.setText("");
-        }
+        dropLabel.setText(tracks.isEmpty() ? "Drag music files here" : "");
 
         for (MusicPageParser.MusicTrack track : tracks) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/utegiscomoany/soundlistener/track_item.fxml"));
-                HBox trackBox = loader.load();
-                Label nameLabel = (Label) trackBox.lookup("#trackName");
-                Label durationLabel = (Label) trackBox.lookup("#trackDuration");
-
-                nameLabel.setText(track.getName());
-                durationLabel.setText("Loading..."); // Временная надпись
-
-                // Загружаем длительность асинхронно
-                loadDurationAsync(track.getPath(), durationLabel);
-
-                trackBox.setOnMouseClicked(e -> {
-                    selectedTrackPath = track.getPath();
-                    musicContainer.getChildren().forEach(node ->
-                            node.setStyle("-fx-background-color: #3a3a3a;"));
-                    trackBox.setStyle("-fx-background-color: #2980b9;");
-                    audioPlayer.play(selectedTrackPath);
-                });
-
-                trackBox.setOnMouseEntered(e -> {
-                    if (!trackBox.getStyle().contains("#2980b9")) {
-                        trackBox.setStyle("-fx-background-color: #4a4a4a;");
-                    }
-                });
-
-                trackBox.setOnMouseExited(e -> {
-                    if (!trackBox.getStyle().contains("#2980b9")) {
-                        trackBox.setStyle("-fx-background-color: #3a3a3a;");
-                    }
-                });
-
+                HBox trackBox = createTrackBox(track);
                 musicContainer.getChildren().add(trackBox);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private HBox createTrackBox(MusicPageParser.MusicTrack track) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/utegiscomoany/soundlistener/track_item.fxml"));
+        HBox trackBox = loader.load();
+        Label nameLabel = (Label) trackBox.lookup("#trackName");
+        Label durationLabel = (Label) trackBox.lookup("#trackDuration");
+
+        nameLabel.setText(track.getName());
+        durationLabel.setText("Loading...");
+        trackBox.setStyle("-fx-background-color: #3a3a3a;");
+
+        loadDurationAsync(track.getPath(), durationLabel);
+        setupTrackSelection(track, trackBox);
+
+        return trackBox;
+    }
+
+    private void setupTrackSelection(MusicPageParser.MusicTrack track, HBox trackBox) {
+        trackBox.setOnMouseClicked(e -> {
+            selectedTrackPath = track.getPath();
+            musicContainer.getChildren().forEach(node ->
+                    node.setStyle("-fx-background-color: #3a3a3a;"));
+            trackBox.setStyle("-fx-background-color: #2980b9;");
+            audioPlayer.play(selectedTrackPath);
+        });
+
+        trackBox.setOnMouseEntered(e -> {
+            if (!trackBox.getStyle().contains("#2980b9")) {
+                trackBox.setStyle("-fx-background-color: #4a4a4a;");
+            }
+        });
+
+        trackBox.setOnMouseExited(e -> {
+            if (!trackBox.getStyle().contains("#2980b9")) {
+                trackBox.setStyle("-fx-background-color: #3a3a3a;");
+            }
+        });
     }
 
     private void loadDurationAsync(String filePath, Label durationLabel) {
@@ -223,18 +221,19 @@ public class MainController {
 
                 tempPlayer.setOnReady(() -> {
                     Duration duration = media.getDuration();
-                    int minutes = (int) duration.toMinutes();
-                    int seconds = (int) (duration.toSeconds() % 60);
-                    String durationText = String.format("%d:%02d", minutes, seconds);
-
-                    // Обновляем UI в JavaFX Application Thread
+                    String durationText = formatDuration(duration);
                     Platform.runLater(() -> durationLabel.setText(durationText));
-
                     tempPlayer.dispose();
                 });
             } catch (Exception e) {
                 Platform.runLater(() -> durationLabel.setText("0:00"));
             }
         }).start();
+    }
+
+    private String formatDuration(Duration duration) {
+        int minutes = (int) duration.toMinutes();
+        int seconds = (int) (duration.toSeconds() % 60);
+        return String.format("%d:%02d", minutes, seconds);
     }
 }

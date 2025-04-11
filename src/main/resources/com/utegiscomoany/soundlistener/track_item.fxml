@@ -1,17 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.image.*?>
 
-<HBox fx:id="trackBox" alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="450.0"
-      style="-fx-background-color: #3a3a3a; -fx-background-radius: 5; -fx-padding: 5 10; -fx-spacing: 10;"
-      xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="trackBox" alignment="CENTER_LEFT" prefHeight="70.0" prefWidth="580.0"
+      stylesheets="@styles.css" styleClass="track-box" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1">
 
-    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#4a4a4a" height="40.0" strokeType="INSIDE" width="40.0" />
+    <!-- Серый квадрат с иконкой музыки -->
 
-    <Label fx:id="trackName" style="-fx-text-fill: white; -fx-font-size: 14; -fx-font-weight: bold;"
-           text="Track Name" HBox.hgrow="ALWAYS" />
+        <ImageView fitWidth="30" fitHeight="30" preserveRatio="true" styleClass="music-icon">
+            <Image url="@images/music-note.png"/>
+        </ImageView>
 
-    <Label fx:id="trackDuration" style="-fx-text-fill: #aaaaaa; -fx-font-size: 12;" text="0:00" />
+
+    <!-- Основное содержимое -->
+    <VBox alignment="CENTER_LEFT" styleClass="track-content" HBox.hgrow="ALWAYS">
+        <Label fx:id="trackName" styleClass="track-title" text="Track Name"/>
+        <Label fx:id="trackDuration" styleClass="track-duration" text="0:00"/>
+    </VBox>
+
+    <!-- Разделительная линия -->
+    <Line styleClass="separator" startY="0" endY="70" strokeWidth="2"/>
+
+    <!-- Кнопка -->
+    <Button styleClass="track-button" mnemonicParsing="false" text="Кнопка не назначена"
+            minWidth="120" maxWidth="120"/>
 </HBox>
